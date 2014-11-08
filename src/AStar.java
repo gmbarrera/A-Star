@@ -6,16 +6,12 @@ import java.util.Collections;
 public class AStar {
 
 	private int[][] map;
-	private int width, height;
-	private ArrayList<Node> nodes, path;
+	private ArrayList<Node> nodes;
 	private ArrayList<Node> closedNodes, openedNodes;
 	private Node origin, destination;
 
-	public AStar(int width, int height) {
-		this.width = width;
-		this.height = height;
-		MazeGenerator mg = new MazeGenerator((width - 1) / 4, (height - 1) / 2);
-		map = mg.getMaze();
+	public AStar(int[][] map) {
+		this.map = map;
 	}
 
 	public ArrayList<Node> findPath(int x1, int y1, int x2, int y2) {
@@ -34,8 +30,10 @@ public class AStar {
 		destination = nodes.get(nodes.indexOf(new Node(x2, y2)));
 
 		Node currentNode = origin;
-		while (!currentNode.equals(destination))
-			currentNode = processNode(currentNode);
+		while (!currentNode.equals(destination)) {
+			processNode(currentNode);
+			currentNode = getMinFValueNode();
+		}
 
 		return retrievePath();
 	}
@@ -54,7 +52,7 @@ public class AStar {
 		return path;
 	}
 
-	private Node processNode(Node node) {
+	private void processNode(Node node) {
 
 		ArrayList<Node> adj = getAdjacentNodes(node);
 
@@ -66,11 +64,12 @@ public class AStar {
 			if (closedNodes.contains(n))
 				continue;
 
+			//Compute the Manhattan distance from node 'n' to destination
 			int h = Math.abs(origin.getX() - n.getX());
 			h += Math.abs(origin.getY() - n.getY());
 
+			//Compute the distance from origin to node 'n' 
 			int g = node.getG();
-
 			if (node.getX() == n.getX() || node.getY() == n.getY())
 				g += 10;
 			else
@@ -93,8 +92,6 @@ public class AStar {
 				}
 			}
 		}
-
-		return getMinFValueNode();
 	}
 
 	private Node getMinFValueNode() {
@@ -140,7 +137,6 @@ public class AStar {
 		return adjCells;
 	}
 
-
 	private void mergePath(ArrayList<Node> path) {
 		for(Node node : path)
 			map[node.getX()][node.getY()] = 2;
@@ -169,7 +165,10 @@ public class AStar {
 	}
 
 	public static void main(String[] args) {
-		AStar a = new AStar(40, 40);
+		
+		MazeGenerator mg = new MazeGenerator((40 - 1) / 4, (40 - 1) / 2);
+		
+		AStar a = new AStar(mg.getMaze());
 		
 		System.out.println("The maze to resolve:");
 		a.printMap();
