@@ -1,4 +1,3 @@
-import ia.battle.camp.MazeGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;
