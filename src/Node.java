@@ -1,6 +1,6 @@
 public class Node {
-	private float g;
-	private float h;
+	private int g;
+	private int h;
 	private Node parent;
 
 	private int x, y;
@@ -10,23 +10,23 @@ public class Node {
 		this.y = y;
 	}
 	
-	public float getF() {
+	public int getF() {
 		return g + h;
 	}
 
-	public float getG() {
+	public int getG() {
 		return g;
 	}
 
-	public void setG(float g) {
+	public void setG(int g) {
 		this.g = g;
 	}
 
-	public float getH() {
+	public int getH() {
 		return h;
 	}
 
-	public void setH(float h) {
+	public void setH(int h) {
 		this.h = h;
 	}
 
@@ -52,4 +52,7 @@ public class Node {
 		return this.x == other.getX() && this.y == other.getY();
 	}
 	
+	public String toString() {
+		return "[" + x + ", " + y + "]";
+	}
 }
