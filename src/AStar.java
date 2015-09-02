@@ -64,8 +64,8 @@ public class AStar {
 				continue;
 
 			//Compute the Manhattan distance from node 'n' to destination
-			int h = Math.abs(origin.getX() - n.getX());
-			h += Math.abs(origin.getY() - n.getY());
+			int h = Math.abs(destination.getX() - n.getX());
+			h += Math.abs(destination.getY() - n.getY());
 
 			//Compute the distance from origin to node 'n' 
 			int g = node.getG();
