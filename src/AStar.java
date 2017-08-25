@@ -6,7 +6,7 @@ public class AStar {
 
 	private int[][] map;
 	private ArrayList<Node> nodes;
-	private ArrayList<Node> closedNodes, openedNodes;
+	private ArrayList<Node> closedNodes, openNodes;
 	private Node origin, destination;
 
 	public AStar(int[][] map) {
@@ -16,7 +16,7 @@ public class AStar {
 	public ArrayList<Node> findPath(int x1, int y1, int x2, int y2) {
 		nodes = new ArrayList<Node>();
 		closedNodes = new ArrayList<Node>();
-		openedNodes = new ArrayList<Node>();
+		openNodes = new ArrayList<Node>();
 
 		// A node is added for each passable cell in the map
 		for (int i = 0; i < map.length; i++)
@@ -55,7 +55,7 @@ public class AStar {
 
 		ArrayList<Node> adj = getAdjacentNodes(node);
 
-		openedNodes.remove(node);
+		openNodes.remove(node);
 		closedNodes.add(node);
 
 		for (Node n : adj) {
@@ -74,13 +74,13 @@ public class AStar {
 			else
 				g += 14;
 
-			if (!openedNodes.contains(n)) {
+			if (!openNodes.contains(n)) {
 
 				n.setParent(node);
 				n.setH(h);
 				n.setG(g);
 
-				openedNodes.add(n);
+				openNodes.add(n);
 			} else {
 
 				if (h + g < n.getF()) {
@@ -94,9 +94,9 @@ public class AStar {
 	}
 
 	private Node getMinFValueNode() {
-		Node node = openedNodes.get(0);
+		Node node = openNodes.get(0);
 
-		for (Node n : openedNodes)
+		for (Node n : openNodes)
 			if (node.getF() > n.getF())
 				node = n;
 
